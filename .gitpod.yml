@@ -1,5 +1,5 @@
 tasks:
-    - name: Environment Setup
+  - name: Environment Setup
     init: |
       echo "Running environment setup..."
       ./post_to_api.sh "Environment%20Setup%20Started"
