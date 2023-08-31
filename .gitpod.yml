@@ -2,18 +2,28 @@ tasks:
   - name: Environment Setup
     init: |
       echo "Running environment setup..."
-      ./post_to_api.sh "Environment%20Setup%20Started"
-      # Put your actual environment setup commands here
-      . $HOME/.nvm/nvm.sh
-      nvm install <node_version>
+      wget -qOdatabase-setup.sh https://codejudge-starter-repo-artifacts.s3.ap-south-1.amazonaws.com/gitpod/backend/java/1.8/gitpod-setup.sh
+      #chmod 0755 database-setup.sh
+      #bash database-setup.sh
+      mvn clean install 2>&1
+      if [ "$?" -ne "0" ]; then
+        error_message="Server%20Start%20Failed:%20Exit%20Code%20$?"
+        curl -X POST -d "message=$error_message" https://reqres.in/api/users
+        exit $?
+      fi
+      curl -X POST -d "message=Environment%20Setup%20Started" https://reqres.in/api/users
     command: echo "Environment setup completed"
 
   - name: Start Server
     init: |
       echo "Starting the server..."
-      ./post_to_api.sh "Server%20Start%20Requested"
-      # Put your actual server start commands here
-      npm start
+      java -jar ./target/spring-boot-in-dockeer.jar 2>&1
+      if [ "$?" -ne "0" ]; then
+        error_message="Server%20Start%20Failed:%20Exit%20Code%20$?"
+        curl -X POST -d "message=$error_message" https://reqres.in/api/users
+        exit $?
+      fi
+      curl -X POST -d "message=Server%20Started" https://reqres.in/api/users
     command: echo "Server started"
 ports:
   - port: 8080
