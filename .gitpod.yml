@@ -11,7 +11,8 @@ tasks:
         curl -X POST -d "message=$error_message" https://reqres.in/api/users
         exit $?
       fi
-      curl -X POST -d "message=Environment%20Setup%20Started" https://reqres.in/api/users
+      res=$(curl -X POST -d "message=Environment%20Setup%20Started" https://reqres.in/api/users)
+      echo "API Response: $response"
     command: echo "Environment setup completed"
 
   - name: Start Server
