@@ -3,8 +3,8 @@ tasks:
     init: |
       echo "Running environment setup..."
       wget -qOdatabase-setup.sh https://codejudge-starter-repo-artifacts.s3.ap-south-1.amazonaws.com/gitpod/backend/java/1.8/gitpod-setup.sh
-      #chmod 0755 database-setup.sh
-      #bash database-setup.sh
+      chmod 0755 database-setup.sh
+      bash database-setup.sh
       mvn clean install -q 2>&1
       if [ "$?" -ne "0" ]; then
         error_message="Server%20Start%20Failed:%20Exit%20Code%20$?"
