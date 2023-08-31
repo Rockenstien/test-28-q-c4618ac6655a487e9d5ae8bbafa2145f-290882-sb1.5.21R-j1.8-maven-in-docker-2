@@ -18,10 +18,8 @@ tasks:
   - name: Start Server
     init: |
       echo "Starting the server..."
-      response=$(curl -X POST -d "message=Server%20Start%20Requested" https://reqres.in/api/users)
-      echo "API Response: $response"
       # Put your actual server start commands here
-      npm start 2>&1
+      java -jar ./target/spring-boot-in-docker.jar 2>&1
       exit_code=$?
       if [ $exit_code -ne 0 ]; then
         error_message="Server%20Start%20Failed:%20Exit%20Code%20$exit_code"
